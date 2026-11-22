@@ -1,4 +1,4 @@
-# Vice City Mini (GTA 6 Browser Edition) — Interactive Web Game
+# GTA 6 Vice City Mini
 
 ## Overview
 Build a playable, top-down 2D **Mini GTA 6** open-world sandbox in the browser using HTML5 Canvas + JavaScript/TypeScript (or React — your choice).
