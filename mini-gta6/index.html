@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini GTA 6 — Vice City Sandbox</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <canvas id="gameCanvas" aria-label="Mini GTA 6 top-down open world"></canvas>
+
+    <div class="hud">
+      <div class="hud-top-right">
+        <div class="hud-badge hud-badge-wanted">
+          <span class="hud-label">WANTED</span>
+          <span id="wantedStars" class="hud-value">☆☆☆☆☆</span>
+          <span id="wantedCooldown" class="hud-cooldown hidden"></span>
+        </div>
+        <div class="hud-badge hud-badge-cash">
+          <span class="hud-label">CASH</span>
+          <span id="cashValue" class="hud-value">$0</span>
+        </div>
+        <div class="hud-badge">
+          <span class="hud-label">MISSION</span>
+          <span id="missionStatus" class="hud-value">Head to Yellow Marker</span>
+        </div>
+        <div class="hud-badge">
+          <span class="hud-label">DISTRICT</span>
+          <span id="districtName" class="hud-value">Ocean Drive</span>
+        </div>
+        <div class="hud-badge">
+          <span class="hud-label">STATE</span>
+          <span id="moveState" class="hud-value">ON FOOT</span>
+        </div>
+        <div class="hud-badge hud-badge-speed">
+          <span class="hud-label">SPEED</span>
+          <span id="speedValue" class="hud-value">0 MPH</span>
+        </div>
+        <div class="hud-badge">
+          <span class="hud-label">RADIO</span>
+          <span id="radioStation" class="hud-value">Off</span>
+        </div>
+        <div class="hud-actions">
+          <button id="pauseBtn" type="button">Pause (P)</button>
+          <button id="resetBtn" type="button">Reset</button>
+        </div>
+      </div>
+
+      <div class="hud-bottom-left">
+        <canvas id="minimapCanvas" width="180" height="135"></canvas>
+      </div>
+
+      <div class="hud-bottom-right">
+        <div class="controls-card">
+          <div><kbd>WASD</kbd> / <kbd>Arrows</kbd> Move &amp; Drive</div>
+          <div><kbd>Shift</kbd> Run • <kbd>Space</kbd> Handbrake</div>
+          <div><kbd>E</kbd> / <kbd>F</kbd> Enter / Exit Car</div>
+          <div><kbd>R</kbd> Radio • <kbd>P</kbd> Pause • <kbd>Shift+R</kbd> Reset</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="pauseOverlay" class="pause-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+      <div class="pause-modal">
+        <div id="pauseTitle" class="pause-title">PAUSED</div>
+        <button id="resumeBtn" type="button">Resume (P)</button>
+      </div>
+    </div>
+
+    <div id="bustedOverlay" class="pause-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="bustedTitle">
+      <div class="pause-modal busted-modal">
+        <div id="bustedTitle" class="busted-title">BUSTED</div>
+        <div class="busted-sub">Police cornered you!</div>
+        <button id="bustedRestartBtn" type="button">Restart (Shift+R)</button>
+      </div>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
