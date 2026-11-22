@@ -1,23 +1,22 @@
-# Grid Defense — Interactive Web Game
+# Vice City Mini (GTA 6 Browser Edition) — Interactive Web Game
 
 ## Overview
-Build a playable, browser-based **Grid Tower Defense** game using HTML/CSS/JavaScript (or React/TypeScript — your choice).
+Build a playable, top-down 2D **Mini GTA 6** open-world sandbox in the browser using HTML5 Canvas + JavaScript/TypeScript (or React — your choice).
 
 ## Core Requirements
 
-### 1. The Arena
-- Render a grid with a **Start** cell on the left edge and a **Goal** cell on the right edge.
-- Players can click cells to **place or remove Towers**.
+### 1. The City & Camera
+- Render a scrollable top-down **Vice City-inspired mini-map** (roads, city blocks/buildings, beach/waterfront).
+- Implement a smooth **follow-camera** centered on the player.
 
-### 2. Live Pathfinding
-- Enemies spawn at **Start** and move smoothly toward **Goal** along the shortest valid path.
-- Whenever a tower is placed or removed, active enemies must adapt their path in real time.
-- Players should not be able to break the game by blocking the path.
+### 2. Player & Vehicle Switching
+- The player starts **on foot** and can walk/run around the city.
+- Players can **enter and exit vehicles** parked on the map.
+- Driving should feel distinct from walking (acceleration, steering, braking/reverse).
+- Prevent the player and cars from driving through buildings.
 
-### 3. Combat & Game Loop
-- Towers automatically shoot enemies within range.
-- Enemies take damage and are defeated when their HP reaches `0`.
-- Display **Lives**, **Score**, and basic game controls (**Start / Pause / Reset**).
+### 3. HUD & Controls
+- Show a minimal HUD: current mode (**On-Foot / Driving**), **Speed**, and basic controls (**Pause / Reset**).
 
 ## Interview Guidelines (HackerRank AI-Assisted — Unguarded Mode)
 - **Time:** 45 minutes
@@ -29,32 +28,34 @@ Build a playable, browser-based **Grid Tower Defense** game using HTML/CSS/JavaS
 ## Clarifications (Expand only if you ask about them)
 
 <details>
-<summary>Clarification 1 — Grid Size & Movement Rules</summary>
+<summary>Clarification 1 — World Size, Camera & Collisions</summary>
 
-- **Grid size:** `15 × 10` (15 columns, 10 rows).
-- **Start / Goal:** Fixed at `(0, 4)` and `(14, 4)` (left-middle to right-middle).
-- **Movement:** **4-directional only** (up, down, left, right — no diagonals).
-
-</details>
-
-<details>
-<summary>Clarification 2 — Tower Placement Edge Cases</summary>
-
-- Cannot place a tower on **Start** or **Goal**.
-- Cannot place a tower on a cell **currently occupied by an enemy**.
-- Cannot place a tower if it **completely blocks all paths** from Start to Goal — reject the placement and show brief visual feedback (e.g., red flash / toast).
-- Removing a tower is always allowed and immediately triggers path recalculation.
+- **World size:** `2400 × 1800` px (larger than viewport so the camera scrolls).
+- **Camera:** Smoothly follows the player/car (lerp) and clamps to world boundaries.
+- **Collisions:**
+  - On foot: circle vs. building AABB with smooth wall-sliding.
+  - Driving: solid collision with buildings (stops/bounces velocity without getting stuck inside walls).
 
 </details>
 
 <details>
-<summary>Clarification 3 — Combat Numbers & Lives</summary>
+<summary>Clarification 2 — Vehicle Physics & Enter/Exit Edge Cases</summary>
 
-- **Tower range:** 2-cell radius (Euclidean distance), targets the **nearest enemy** (or enemy closest to Goal).
-- **Tower fire rate:** 1 shot every `0.8s`, dealing `25` damage.
-- **Enemy base stats:** `100 HP`, moves at `2 cells/sec`, spawns every `1.5s`.
-- **Lives:** Start with `10` lives (`-1` when an enemy reaches Goal; Game Over at `0`).
-- **Score:** `+10` per defeated enemy.
+- **Controls:** `WASD` / Arrow keys to move/drive, `E` or `F` to enter/exit vehicle, `Space` for handbrake/drift.
+- **Driving physics:**
+  - Cars **cannot rotate in place** when speed is `0` — turning rate should scale with velocity.
+  - Natural friction/drag when not accelerating; reverse gear when braking from stop.
+- **Enter/Exit edge cases:**
+  - Entering picks the **nearest vehicle within 60px**.
+  - Exiting places the player beside the car on a **valid, non-colliding side** (never spawns the player trapped inside a building or water).
+
+</details>
+
+<details>
+<summary>Clarification 3 — Ambient World (Traffic & Parked Cars)</summary>
+
+- Spawn at least **6–8 vehicles** across the city (mix of parked cars and simple ambient traffic driving along road lanes).
+- Visual style: Neon Miami/Vice City palette (magenta/cyan accents, palm trees, beach strip, crosswalks).
 
 </details>
 
@@ -63,44 +64,45 @@ Build a playable, browser-based **Grid Tower Defense** game using HTML/CSS/JavaS
 ## Additional Requirements (Expand one at a time after Core works)
 
 <details>
-<summary>Follow-Up 1 — Economy & Multiple Tower Types</summary>
+<summary>Follow-Up 1 — Wanted Level & Police Chase (★ to ★★★★★)</summary>
 
-- Start the player with **150 Gold**.
-- Defeating an enemy grants **+20 Gold**; removing a tower refunds **50%** of its cost.
-- Support **3 tower types** selectable from a toolbar:
-  1. **Basic Tower (50g):** Balanced range (`2` cells), medium fire rate, `25` dmg.
-  2. **Sniper Tower (90g):** Long range (`4.5` cells), slow fire rate (`2.0s`), high damage (`75` dmg).
-  3. **Frost Tower (75g):** Short range (`2` cells), low damage (`10` dmg), slows hit enemies by **50% for 2 seconds**.
+- Add a **Wanted Level (0 to 5 stars)** in the top-right HUD.
+- Triggering heat (e.g., stealing a moving car, colliding with traffic, or speeding past a police car) increases the Wanted Level.
+- When Wanted Level ≥ 1:
+  - Spawn **Police Cars** with flashing red/blue lights that actively chase the player/car.
+  - Show a **cooldown timer**: staying out of police sight/range for **8 seconds** clears the Wanted Level.
+  - If police trap/corner you at low speed for `2 seconds` → **BUSTED** screen with quick restart.
 
 </details>
 
 <details>
-<summary>Follow-Up 2 — Wave System & Speed Control</summary>
+<summary>Follow-Up 2 — Mini-Missions, Minimap & Vice City Radio HUD</summary>
 
-- Replace infinite spawning with **progressive Waves** (Wave 1, Wave 2, Wave 3...):
-  - Each wave spawns more enemies with higher HP (e.g., `+25%` HP per wave).
-  - Show current wave number and a **"Next Wave"** button (or short countdown between waves).
-- Add a **1x / 2x Speed** toggle that scales movement, spawn intervals, fire cooldowns, and slow durations consistently without breaking physics.
+- Add a **Corner Minimap** showing roads, player position, police blips, and active mission target.
+- Add a **Timed Getaway / Delivery Mission**:
+  - Entering a glowing yellow mission zone starts a countdown to reach a target checkpoint across the city (with a directional arrow pointing toward it).
+  - Completing the mission awards **+$500** and spawns a new mission.
+- Add a lightweight **Radio Station HUD** (`R` key cycles station names like *Vice FM*, *Neon Synth*, *Off* — optional Web Audio API synth beat).
 
 </details>
 
 <details>
 <summary>Follow-Up 3 — Architecture & Edge-Case Testing</summary>
 
-- Decouple the **pathfinding & placement validation engine** from the UI rendering layer.
+- Decouple the **physics, collision, and wanted-level simulation** from the HTML5 Canvas renderer.
 - Write unit tests covering:
-  1. Shortest path calculation around obstacles.
-  2. Rejecting a tower that completely blocks the path.
-  3. Rejecting placement on Start, Goal, or an occupied enemy cell.
-  4. Rerouting an active enemy mid-path without teleporting or getting stuck.
+  1. Stationary car cannot rotate (`speed === 0` → angle unchanged).
+  2. Building collision prevents tunneling/clipping at high speed.
+  3. Exiting a car next to a wall spawns the player on the safe opposite side.
+  4. Delta-time clamping (`dt` capped, e.g., `<= 0.05s`) so switching browser tabs doesn't teleport cars through buildings.
 
 </details>
 
 <details>
 <summary>Final — Interviewer Review Questions (Post-Code)</summary>
 
-1. Walk through your **AI chat transcript**: where did the AI save you time, and where did you have to correct it?
-2. What breaks if the user switches tabs for 10 seconds while the game is running (`requestAnimationFrame` delta-time spike)?
-3. If the grid scaled up to `200 × 200` with `500` active enemies, where would your pathfinding bottleneck be and how would you redesign it (e.g., Flow Field / reverse BFS from Goal)?
+1. Walk through your **AI chat transcript**: where did the AI accelerate you, and where did you catch a physics/collision bug it introduced?
+2. What happens when a fast car moves `25px` in a single frame next to a `20px` thin wall (tunneling), and how would you fix it?
+3. If we scaled this city to `10,000 × 10,000` with `300` NPC cars and police units, where would your frame loop bottleneck be and how would you optimize collision checks (e.g., spatial hashing / quadtree)?
 
 </details>
