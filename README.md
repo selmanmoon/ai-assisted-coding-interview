@@ -3,6 +3,13 @@
 ## Overview
 Build a playable, top-down 2D **Mini GTA 6** open-world sandbox in the browser using HTML5 Canvas + JavaScript/TypeScript (or React — your choice).
 
+## Interview Guidelines (HackerRank AI-Assisted — Unguarded Mode)
+- **Time:** 45 minutes
+- **AI Assistant:** Full access (inline completions, file-aware chat, Plan mode, Agent mode).
+- **Note:** Some specifications below are intentionally left open. Clarify assumptions as you go, and only expand the sections below when you reach them.
+
+---
+
 <details>
 <summary><strong>Core Requirements (Expand to start)</strong></summary>
 
@@ -20,11 +27,6 @@ Build a playable, top-down 2D **Mini GTA 6** open-world sandbox in the browser u
 - Show a minimal HUD: current mode (**On-Foot / Driving**), **Speed**, and basic controls (**Pause / Reset**).
 
 </details>
-
-## Interview Guidelines (HackerRank AI-Assisted — Unguarded Mode)
-- **Time:** 45 minutes
-- **AI Assistant:** Full access (inline completions, file-aware chat, Plan mode, Agent mode).
-- **Note:** Some specifications above are intentionally left open. Clarify assumptions as you go, and only expand the sections below when you reach them.
 
 ---
 
