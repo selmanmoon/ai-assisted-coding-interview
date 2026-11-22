@@ -3,7 +3,8 @@
 ## Overview
 Build a playable, top-down 2D **Mini GTA 6** open-world sandbox in the browser using HTML5 Canvas + JavaScript/TypeScript (or React — your choice).
 
-## Core Requirements
+<details>
+<summary><strong>Core Requirements (Expand to start)</strong></summary>
 
 ### 1. The City & Camera
 - Render a scrollable top-down **Vice City-inspired mini-map** (roads, city blocks/buildings, beach/waterfront).
@@ -17,6 +18,8 @@ Build a playable, top-down 2D **Mini GTA 6** open-world sandbox in the browser u
 
 ### 3. HUD & Controls
 - Show a minimal HUD: current mode (**On-Foot / Driving**), **Speed**, and basic controls (**Pause / Reset**).
+
+</details>
 
 ## Interview Guidelines (HackerRank AI-Assisted — Unguarded Mode)
 - **Time:** 45 minutes
